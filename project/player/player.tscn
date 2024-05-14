@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://cciwf8iuqx7ek"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_ndmya"]
+[ext_resource type="PackedScene" uid="uid://cqqd7dokvy2th" path="res://police-officer.glb" id="2_8uqfq"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6ierk"]
+radius = 0.0881442
+height = 1.55179
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3vamv"]
+radius = 0.106801
+height = 1.0784
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8hk6w"]
+size = Vector3(0.234375, 0.0744629, 0.315872)
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("neck", "head", "body_standing", "body_crouching", "raycast_crouching", "camera", "flashlight")]
+collision_layer = 2
+collision_mask = 13
+floor_stop_on_slope = false
+script = ExtResource("1_ndmya")
+neck = NodePath("Head/Neck")
+head = NodePath("Head")
+body_standing = NodePath("BodyStanding")
+body_crouching = NodePath("BodyCrouching")
+raycast_crouching = NodePath("CrouchRayCast3D")
+camera = NodePath("Head/Neck/Camera3D")
+flashlight = NodePath("Head/Neck/Camera3D/Flashlight")
+
+[node name="BodyStanding" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.779024, 0)
+shape = SubResource("CapsuleShape3D_6ierk")
+
+[node name="BodyCrouching" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54567, 0)
+shape = SubResource("CapsuleShape3D_3vamv")
+
+[node name="Feet" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0136989, 0.0390165, -0.0651497)
+shape = SubResource("BoxShape3D_8hk6w")
+
+[node name="CrouchRayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 1.7, 0)
+
+[node name="Head" type="Node3D" parent="."]
+
+[node name="Neck" type="Node3D" parent="Head"]
+
+[node name="Camera3D" type="Camera3D" parent="Head/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.1)
+
+[node name="police-officer" parent="Head/Neck/Camera3D" instance=ExtResource("2_8uqfq")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -1.5, 0.1)
+
+[node name="Flashlight" type="SpotLight3D" parent="Head/Neck/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00088501, -0.229955, 0.0288868)
+visible = false
+layers = 13
+spot_range = 3.41146
+spot_angle = 8.30664
