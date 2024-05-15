@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dtc6nktakphav"]
+[gd_scene load_steps=31 format=3 uid="uid://dtc6nktakphav"]
 
 [ext_resource type="Texture2D" uid="uid://dunrwb5mogo8h" path="res://map/small-map_Bush_07.jpg" id="2_p2fb7"]
 [ext_resource type="Texture2D" uid="uid://1rgp4oty5vxx" path="res://map/small-map_Wood_02.jpg" id="3_7r3yu"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://0s401tnbense" path="res://map/small-map_Fabric_02.jpg" id="8_fmr4n"]
 [ext_resource type="Texture2D" uid="uid://baigye6rsbexa" path="res://map/small-map_Fabric_01.jpg" id="9_udlon"]
 [ext_resource type="Texture2D" uid="uid://5vitcurbxwyx" path="res://map/small-map_Wood_05.jpg" id="10_ri062"]
+[ext_resource type="PackedScene" uid="uid://p7j020sx1j2k" path="res://components/fire.tscn" id="11_yb2gp"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bhqhr"]
 
@@ -376,6 +377,9 @@ skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="small-map/small-arena-map/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_5dsxu")
+
+[node name="Fire" parent="small-map/small-arena-map/StaticBody3D" instance=ExtResource("11_yb2gp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.70319, -1.55128, -10.1961)
 
 [node name="Debug_info" parent="." instance=ExtResource("4_cgf1x")]
 

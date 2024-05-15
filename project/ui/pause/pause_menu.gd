@@ -17,4 +17,5 @@ func pause():
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _on_quit_button_pressed():
-	get_tree().quit()
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://ui/main_menu/main_menu.tscn")

@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://p7j020sx1j2k"]
+
+[ext_resource type="Texture2D" uid="uid://cghrujruvbklk" path="res://components/explosion07.png" id="1_lnfnh"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_85pns"]
+direction = Vector3(0, 1, 0)
+spread = 2.0
+initial_velocity_min = 0.5
+initial_velocity_max = 0.5
+gravity = Vector3(0, -1, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xqs15"]
+transparency = 1
+albedo_texture = ExtResource("1_lnfnh")
+billboard_mode = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_ksmn6"]
+material = SubResource("StandardMaterial3D_xqs15")
+
+[node name="Fire" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_85pns")
+draw_pass_1 = SubResource("QuadMesh_ksmn6")
