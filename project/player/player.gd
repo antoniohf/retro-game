@@ -10,7 +10,6 @@ var GRAVITY = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var body_crouching: CollisionShape3D
 @export var raycast_crouching: RayCast3D
 @export var camera: Camera3D
-@export var flashlight: SpotLight3D
 
 @export_group("Movement Speed")
 @export var walking_speed: float = 5.0
@@ -21,6 +20,8 @@ var GRAVITY = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var jump_speed: float = 6.0
 @export var lerp_speed: float = 10.0
 @export var jump_lerp_speed: float = 5.0
+
+@onready var attack_area = $AttackArea/CollisionShape3D
 
 var MOUSE_SENSITIVITY: float = 0.25
 var GAMEPAD_JOYSTICK_SENSITIVITY: float = 2
@@ -38,8 +39,11 @@ var is_sliding: bool = false
 var sliding_timer: float = 0.0
 var sliding_direction: Vector2 = Vector2.ZERO
 
+
 func _ready():
+	attack_area.disabled = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	$"Head/Neck/police-with-gun/AnimationPlayer".play("pistol-whip")
 
 
 func _input(event):
@@ -61,18 +65,7 @@ func trigger_camera_movement(rotation_camera: Vector2):
 
 
 func _physics_process(delta):
-	process_input(delta)
 	process_movement(delta)
-
-func process_input(_delta):
-	# ----------------------------------
-	# Turning the flashlight on/off
-	if Input.is_action_just_pressed("flashlight"):
-		if flashlight.is_visible_in_tree():
-			flashlight.hide()
-		else:
-			flashlight.show()
-	# ----------------------------------
 
 
 func process_movement(delta):
@@ -141,10 +134,22 @@ func process_movement(delta):
 		velocity.x = move_toward(velocity.x, 0, current_speed)
 		velocity.z = move_toward(velocity.z, 0, current_speed)
 	
+	# this should not be here! Should be in the player itself but I am lazy
+	if Input.is_action_pressed("attack"):
+		$"Head/Neck/police-with-gun/AnimationPlayer".play("pistol-whip")
+		attack_area.disabled = false
+	
 	move_and_slide()
 	
 func stop_sliding():
 	is_sliding = false
 	rotate_y(neck.rotation.y)
 	neck.rotation.y = 0.0
+	
+func _on_attack_area_body_entered(body):
+	body._on_hit()
+	
+func _on_animation_finished(animation_name):
+	if animation_name == "pistol-whip":
+		attack_area.disabled = true
 	
